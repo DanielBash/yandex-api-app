@@ -7,7 +7,7 @@ from io import BytesIO
 from PIL import Image
 
 geocoder_apikey = "8013b162-6b42-4997-9691-77b7074026e0"
-static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
+static_apikey = "f8b3e395-ee21-476a-9c8d-16eedd20d3d9"
 org_apikey = "72e09cfa-9163-4f5c-ba75-916fb947567b"
 
 
