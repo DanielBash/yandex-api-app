@@ -13,6 +13,7 @@ x, y = 37.677751, 55.757718
 z = 0
 
 z_step, x_step, y_step = 1, 1, 1
+theme = 'light'
 
 
 class YandexApp(QWidget):
@@ -33,10 +34,10 @@ class YandexApp(QWidget):
         self.label.setPixmap(pixmap)
 
     def load_image(self):
-        self.set_image(yandexapi.get_static(x=x, y=y, z=z))
+        self.set_image(yandexapi.get_static(x=x, y=y, z=z, theme=theme))
 
     def keyPressEvent(self, event):
-        global x, y, z
+        global x, y, z, theme
 
         if event.key() == Qt.Key.Key_PageUp:
             z += z_step
@@ -51,6 +52,12 @@ class YandexApp(QWidget):
             x += x_step / z
         if event.key() == Qt.Key.Key_Left:
             x -= x_step / z
+
+        if event.key() == Qt.Key.Key_Space:
+            if theme == 'dark':
+                theme = 'light'
+            elif theme == 'light':
+                theme = 'dark'
 
         x = min(180, max(-180, x))
         y = min(180, max(-180, y))

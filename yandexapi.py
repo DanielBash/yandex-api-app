@@ -11,13 +11,14 @@ static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
 org_apikey = "72e09cfa-9163-4f5c-ba75-916fb947567b"
 
 
-def get_static(api=static_apikey, x=0, y=0,  pt='', z=''):
+def get_static(api=static_apikey, x=0, y=0,  pt='', z='', theme='light'):
     ll = f'{x},{y}'
     return Image.open(BytesIO(requests.get("https://static-maps.yandex.ru/v1", params={
         'apikey': api,
         'll': ll,
         'pt': pt,
-        'z': str(z)
+        'z': str(z),
+        'theme': theme
     }).content))
 
 
