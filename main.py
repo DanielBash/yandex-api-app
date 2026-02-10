@@ -11,22 +11,26 @@ from PIL import Image, ImageQt
 x, y = 37.677751, 55.757718
 z = 0
 
+
 class YandexApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Pyqt6 App api')
         self.setGeometry(300, 300, 500, 500)
 
-        self.label = QLabel()
+        self.label = QLabel(self)
+        self.label.setFixedSize(500, 500)
+
+        self.load_image()
 
     def set_image(self, img: Image):
         img = ImageQt.toqimage(img)
 
-        pixmap = QPixmap.fromImage(img).scaled(300, 300, QtWidgets.Qt.KeepAspectRatio)
+        pixmap = QPixmap.fromImage(img).scaled(500, 500)
         self.label.setPixmap(pixmap)
 
     def load_image(self):
-        self.set_image(x, y, z=z)
+        self.set_image(yandexapi.get_static(x=x, y=y, z=z))
 
 
 if __name__ == '__main__':

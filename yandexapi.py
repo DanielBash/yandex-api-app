@@ -2,7 +2,9 @@
 yandex api
 """
 
-import requests, PIL
+import requests
+from io import BytesIO
+from PIL import Image
 
 geocoder_apikey = "8013b162-6b42-4997-9691-77b7074026e0"
 static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
@@ -11,12 +13,12 @@ org_apikey = "72e09cfa-9163-4f5c-ba75-916fb947567b"
 
 def get_static(api=static_apikey, x=0, y=0,  pt='', z=''):
     ll = f'{x},{y}'
-    return requests.get("https://static-maps.yandex.ru/v1", params={
+    return Image.open(BytesIO(requests.get("https://static-maps.yandex.ru/v1", params={
         'apikey': api,
         'll': ll,
         'pt': pt,
         'z': str(z)
-    })
+    }).content))
 
 
 def get_geocoder(location='Красная пл-дь, 1', api=geocoder_apikey, formating='json'):
