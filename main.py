@@ -41,6 +41,11 @@ class YandexApp(QWidget):
         self.led_btn.move(120, 0)
         self.led_btn.clicked.connect(self.search_obj)
 
+        self.theme_btn = QPushButton(self)
+        self.theme_btn.setText('Сменить тему')
+        self.theme_btn.move(190, 0)
+        self.theme_btn.clicked.connect(self.theme_change)
+
         self.load_image()
 
     def set_image(self, img: Image):
@@ -70,10 +75,7 @@ class YandexApp(QWidget):
             x -= x_step / z
 
         if event.key() == Qt.Key.Key_Space:
-            if theme == 'dark':
-                theme = 'light'
-            elif theme == 'light':
-                theme = 'dark'
+            self.theme_change()
 
         x = min(180, max(-180, x))
         y = min(180, max(-180, y))
@@ -81,15 +83,26 @@ class YandexApp(QWidget):
         self.load_image()
 
     def search_obj(self):
-        global x, y, z
+        global x, y, z, pt
         try:
             long, lat, delta = yandexapi.get_location(yandexapi.get_geocoder(self.led.text()).json())
             x = float(long)
             y = float(lat)
+            pt = f'{x},{y}'
             z = 5
             self.led.setText('')
         except:
             self.led.setText('')
+
+        self.load_image()
+
+    def theme_change(self):
+        global theme
+
+        if theme == 'dark':
+            theme = 'light'
+        elif theme == 'light':
+            theme = 'dark'
 
         self.load_image()
 
