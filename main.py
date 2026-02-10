@@ -1,6 +1,7 @@
 import random
 import sys
 
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QWidget, QLineEdit, QPushButton, QApplication, QLabel
 from PyQt6.uic.properties import QtWidgets
@@ -10,6 +11,8 @@ from PIL import Image, ImageQt
 
 x, y = 37.677751, 55.757718
 z = 0
+
+z_step, x_step, y_step = 1, 1, 1
 
 
 class YandexApp(QWidget):
@@ -31,6 +34,25 @@ class YandexApp(QWidget):
 
     def load_image(self):
         self.set_image(yandexapi.get_static(x=x, y=y, z=z))
+
+    def keyPressEvent(self, event):
+        global x, y, z
+
+        if event.key() == Qt.Key.Key_PageUp:
+            z += z_step
+        if event.key() == Qt.Key.Key_PageDown:
+            z += z_step
+
+        if event.key() == Qt.Key.Key_Up:
+            y += y_step
+        if event.key() == Qt.Key.Key_Down:
+            y -= y_step
+        if event.key() == Qt.Key.Key_Right:
+            x += x_step
+        if event.key() == Qt.Key.Key_Left:
+            x -= x_step
+
+        self.load_image()
 
 
 if __name__ == '__main__':
