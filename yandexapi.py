@@ -15,7 +15,7 @@ def get_static(api=static_apikey, x=0, y=0,  pt='', z=''):
         'apikey': api,
         'll': ll,
         'pt': pt,
-        'z': z
+        'z': str(z)
     })
 
 
