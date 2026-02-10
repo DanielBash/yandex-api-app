@@ -1,7 +1,12 @@
 import random
 import sys
+
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QWidget, QLineEdit, QPushButton, QApplication, QLabel
+from PyQt6.uic.properties import QtWidgets
+
 import yandexapi
+from PIL import Image, ImageQt
 
 
 class YandexApp(QWidget):
@@ -12,6 +17,11 @@ class YandexApp(QWidget):
 
         self.label = QLabel()
 
+    def set_image(self, img: Image):
+        img = ImageQt.toqimage(img)
+
+        pixmap = QPixmap.fromImage(img).scaled(300, 300, QtWidgets.Qt.KeepAspectRatio)
+        self.label.setPixmap(pixmap)
 
 
 if __name__ == '__main__':
