@@ -9,6 +9,8 @@ class YandexApp(QWidget):
         self.setWindowTitle('Pyqt6 App api')
         self.setGeometry(300, 300, 500, 500)
 
+        self.label =
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
