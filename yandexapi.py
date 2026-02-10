@@ -1,6 +1,5 @@
 """
-steal my api keys, they were granted for free by yandex,
-and requested to publish them in a repo. So fuck them
+yandex api
 """
 
 import requests, PIL
