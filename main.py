@@ -27,6 +27,8 @@ z_step, x_step, y_step = 1, 1, 1
 theme = 'light'
 pt = ''
 
+search_txt = 'Тут будет адрес объекта'
+
 
 class YandexApp(QWidget):
     def __init__(self):
@@ -53,6 +55,11 @@ class YandexApp(QWidget):
         self.clear_search_btn.move(290, 0)
         self.clear_search_btn.clicked.connect(self.clear_search)
 
+        self.search_obj_label = QLabel(self)
+        self.search_obj_label.setFixedSize(500, 30)
+        self.search_obj_label.move(0, 470)
+        self.search_obj_label.setText(search_txt)
+
         self.load_image()
 
     def set_image(self, img: Image):
@@ -70,7 +77,7 @@ class YandexApp(QWidget):
         if event.key() == Qt.Key.Key_PageUp:
             z += z_step
         if event.key() == Qt.Key.Key_PageDown:
-            z += z_step
+            z -= z_step
 
         if event.key() == Qt.Key.Key_Up:
             y += y_step / z
