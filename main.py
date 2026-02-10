@@ -44,13 +44,16 @@ class YandexApp(QWidget):
             z += z_step
 
         if event.key() == Qt.Key.Key_Up:
-            y += y_step
+            y += y_step / z
         if event.key() == Qt.Key.Key_Down:
-            y -= y_step
+            y -= y_step / z
         if event.key() == Qt.Key.Key_Right:
-            x += x_step
+            x += x_step / z
         if event.key() == Qt.Key.Key_Left:
-            x -= x_step
+            x -= x_step / z
+
+        x = min(180, max(-180, x))
+        y = min(180, max(-180, y))
 
         self.load_image()
 
