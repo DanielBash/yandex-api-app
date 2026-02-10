@@ -11,10 +11,12 @@ from PIL import Image, ImageQt
 
 sys._excepthook = sys.excepthook
 
+
 def pyqt_exception_hook(exctype, value, tb):
     traceback.print_exception(exctype, value, tb)
     sys._excepthook(exctype, value, tb)
     sys.exit(1)
+
 
 sys.excepthook = pyqt_exception_hook
 
@@ -45,6 +47,11 @@ class YandexApp(QWidget):
         self.theme_btn.setText('Сменить тему')
         self.theme_btn.move(190, 0)
         self.theme_btn.clicked.connect(self.theme_change)
+
+        self.clear_search_btn = QPushButton(self)
+        self.clear_search_btn.setText('Очистить поиск')
+        self.clear_search_btn.move(290, 0)
+        self.clear_search_btn.clicked.connect(self.clear_search)
 
         self.load_image()
 
@@ -104,6 +111,12 @@ class YandexApp(QWidget):
         elif theme == 'light':
             theme = 'dark'
 
+        self.load_image()
+
+    def clear_search(self):
+        global pt
+
+        pt = ''
         self.load_image()
 
 
