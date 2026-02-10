@@ -1,19 +1,33 @@
 import random
 import sys
+import traceback
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QWidget, QLineEdit, QPushButton, QApplication, QLabel
 from PyQt6.uic.properties import QtWidgets
-
 import yandexapi
 from PIL import Image, ImageQt
 
+sys._excepthook = sys.excepthook
+
+
+def pyqt_exception_hook(exctype, value, tb):
+    # Print full traceback to stderr
+    traceback.print_exception(exctype, value, tb)
+    # Call original hook (optional)
+    sys._excepthook(exctype, value, tb)
+    # Exit on error (adjust as needed)
+    sys.exit(1)
+
+
+sys.excepthook = pyqt_exception_hook
 x, y = 37.677751, 55.757718
 z = 0
 
 z_step, x_step, y_step = 1, 1, 1
 theme = 'light'
+pt = ''
 
 
 class YandexApp(QWidget):
@@ -24,6 +38,12 @@ class YandexApp(QWidget):
 
         self.label = QLabel(self)
         self.label.setFixedSize(500, 500)
+        self.led = QLineEdit(self)
+        self.led_btn = QPushButton(self)
+
+        self.led_btn.setText('Поиск')
+        self.led_btn.move(120, 0)
+        self.led_btn.clicked.connect(self.search_obj)
 
         self.load_image()
 
@@ -34,10 +54,10 @@ class YandexApp(QWidget):
         self.label.setPixmap(pixmap)
 
     def load_image(self):
-        self.set_image(yandexapi.get_static(x=x, y=y, z=z, theme=theme))
+        self.set_image(yandexapi.get_static(x=x, y=y, z=z, theme=theme, pt=pt))
 
     def keyPressEvent(self, event):
-        global x, y, z, theme
+        global x, y, z, theme, pt
 
         if event.key() == Qt.Key.Key_PageUp:
             z += z_step
@@ -61,6 +81,19 @@ class YandexApp(QWidget):
 
         x = min(180, max(-180, x))
         y = min(180, max(-180, y))
+
+        self.load_image()
+
+    def search_obj(self):
+        global x, y, z
+        try:
+            long, lat, delta = yandexapi.get_location(yandexapi.get_geocoder(self.led.text()).json())
+            x = float(long)
+            y = float(lat)
+            z = 5
+            self.led.setText('')
+        except:
+            self.led.setText('')
 
         self.load_image()
 
