@@ -11,17 +11,13 @@ from PIL import Image, ImageQt
 
 sys._excepthook = sys.excepthook
 
-
 def pyqt_exception_hook(exctype, value, tb):
-    # Print full traceback to stderr
     traceback.print_exception(exctype, value, tb)
-    # Call original hook (optional)
     sys._excepthook(exctype, value, tb)
-    # Exit on error (adjust as needed)
     sys.exit(1)
 
-
 sys.excepthook = pyqt_exception_hook
+
 x, y = 37.677751, 55.757718
 z = 0
 
