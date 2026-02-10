@@ -3,7 +3,7 @@ steal my api keys, they were granted for free by yandex,
 and requested to publish them in a repo. So fuck them
 """
 
-import requests
+import requests, PIL
 
 geocoder_apikey = "8013b162-6b42-4997-9691-77b7074026e0"
 static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
