@@ -26,6 +26,7 @@ class YandexApp(QWidget):
         self.label.setPixmap(pixmap)
 
     def load_image(self):
+        self.set_image()
 
 
 if __name__ == '__main__':
