@@ -8,6 +8,8 @@ from PyQt6.uic.properties import QtWidgets
 import yandexapi
 from PIL import Image, ImageQt
 
+x, y = 37.677751, 55.757718
+z = 0
 
 class YandexApp(QWidget):
     def __init__(self):
@@ -22,6 +24,8 @@ class YandexApp(QWidget):
 
         pixmap = QPixmap.fromImage(img).scaled(300, 300, QtWidgets.Qt.KeepAspectRatio)
         self.label.setPixmap(pixmap)
+
+    def load_image(self):
 
 
 if __name__ == '__main__':
