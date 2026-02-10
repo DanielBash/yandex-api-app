@@ -99,12 +99,16 @@ class YandexApp(QWidget):
     def search_obj(self):
         global x, y, z, pt
         try:
-            long, lat, delta = yandexapi.get_location(yandexapi.get_geocoder(self.led.text()).json())
+            dat = yandexapi.get_geocoder(self.led.text()).json()
+            long, lat, delta = yandexapi.get_location(dat)
             x = float(long)
             y = float(lat)
             pt = f'{x},{y}'
             z = 5
             self.led.setText('')
+            self.search_obj_label.setText(
+                dat["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
+                    "GeocoderMetaData"]["text"])
         except:
             self.led.setText('')
 
@@ -124,6 +128,7 @@ class YandexApp(QWidget):
         global pt
 
         pt = ''
+        self.search_obj_label.setText(search_txt)
         self.load_image()
 
 
