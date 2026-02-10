@@ -28,6 +28,8 @@ theme = 'light'
 pt = ''
 
 search_txt = 'Тут будет адрес объекта'
+display_mail = True
+current_adress = ()
 
 
 class YandexApp(QWidget):
@@ -59,6 +61,11 @@ class YandexApp(QWidget):
         self.search_obj_label.setFixedSize(500, 30)
         self.search_obj_label.move(0, 470)
         self.search_obj_label.setText(search_txt)
+
+        self.display_mail_btn = QPushButton(self)
+        self.display_mail_btn.setText('Отображать почтовый индекс')
+        self.display_mail_btn.move(290, 0)
+        self.display_mail_btn.clicked.connect(self.toggle_mail)
 
         self.load_image()
 
@@ -97,7 +104,7 @@ class YandexApp(QWidget):
         self.load_image()
 
     def search_obj(self):
-        global x, y, z, pt
+        global x, y, z, pt, current_adress
         try:
             dat = yandexapi.get_geocoder(self.led.text()).json()
             long, lat, delta = yandexapi.get_location(dat)
@@ -106,11 +113,13 @@ class YandexApp(QWidget):
             pt = f'{x},{y}'
             z = 5
             self.led.setText('')
-            self.search_obj_label.setText(
+            current_adress = (
                 dat["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
-                    "GeocoderMetaData"]["text"])
+                    "GeocoderMetaData"]["text"], '12')
+            self.toggle_mail()
         except:
             self.led.setText('')
+            current_adress = ()
 
         self.load_image()
 
@@ -130,6 +139,22 @@ class YandexApp(QWidget):
         pt = ''
         self.search_obj_label.setText(search_txt)
         self.load_image()
+
+    def update_mail(self):
+        ret = search_txt
+
+        if len(current_adress) > 0:
+            if display_mail:
+                ret = f'{current_adress[0]} {current_adress[1]}'
+
+        self.search_obj_label.setText(ret)
+
+    def toggle_mail(self):
+        global display_mail
+
+        display_mail = not display_mail
+
+        self.toggle_mail()
 
 
 if __name__ == '__main__':
