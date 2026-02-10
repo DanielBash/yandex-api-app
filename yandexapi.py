@@ -9,7 +9,7 @@ static_apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
 org_apikey = "72e09cfa-9163-4f5c-ba75-916fb947567b"
 
 
-def get_static(api=static_apikey, ll='37.677751,55.757718', spn="", pt=''):
+def get_static(api=static_apikey, ll='37.677751,55.757718',  pt=''):
     return requests.get("https://static-maps.yandex.ru/v1", params={
         'apikey': api,
         'll': ll,
