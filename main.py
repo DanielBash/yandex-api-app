@@ -108,19 +108,23 @@ class YandexApp(QWidget):
         try:
             dat = yandexapi.get_geocoder(self.led.text()).json()
             long, lat, delta = yandexapi.get_location(dat)
+            mail = ''
+            try:
+                mail = dat['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty']['GeocoderMetaData']['Address']['postal_code']
+            except:
+                mail = ''
             x = float(long)
             y = float(lat)
             pt = f'{x},{y}'
             z = 5
-            self.led.setText('')
             current_adress = (
                 dat["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["metaDataProperty"][
-                    "GeocoderMetaData"]["text"], '12')
-            self.toggle_mail()
-        except:
-            self.led.setText('')
+                    "GeocoderMetaData"]["text"], mail)
+        except Exception as e:
             current_adress = ()
 
+        self.led.setText('')
+        self.update_mail()
         self.load_image()
 
     def theme_change(self):
@@ -137,7 +141,7 @@ class YandexApp(QWidget):
         global pt
 
         pt = ''
-        self.search_obj_label.setText(search_txt)
+        self.update_mail()
         self.load_image()
 
     def update_mail(self):
@@ -146,6 +150,8 @@ class YandexApp(QWidget):
         if len(current_adress) > 0:
             if display_mail:
                 ret = f'{current_adress[0]} {current_adress[1]}'
+            else:
+                ret = f'{current_adress[0]}'
 
         self.search_obj_label.setText(ret)
 
@@ -154,7 +160,7 @@ class YandexApp(QWidget):
 
         display_mail = not display_mail
 
-        self.toggle_mail()
+        self.update_mail()
 
 
 if __name__ == '__main__':
